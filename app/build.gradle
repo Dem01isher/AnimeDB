@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -69,19 +70,20 @@ dependencies {
     implementation 'androidx.activity:activity-ktx:1.1.0'
     // ViewModel
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01"
+
     // LiveData
-    implementation 'androidx.ui:ui-livedata:0.1.0-dev14'
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
 
-
-    // Hilt dependency injection
-    implementation "com.google.dagger:hilt-android:2.28-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
-    // When using Kotlin.
-    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha01'
+    // Hilt
+    implementation 'com.google.dagger:hilt-android:2.39.1'
+    kapt 'com.google.dagger:hilt-compiler:2.39.1'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
 
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp-bom:4.9.0"
@@ -93,4 +95,16 @@ dependencies {
     // define any required OkHttp artifacts without version
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.7.2"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha01"
+
+    // Glide
+    implementation "com.github.skydoves:landscapist-glide:1.4.4"
+
+    // api debug
+    implementation 'com.readystatesoftware.chuck:library:1.1.0'
+
+    //Paging 3.0
+    implementation "androidx.paging:paging-compose:1.0.0-alpha14"
 }
