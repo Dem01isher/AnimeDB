@@ -1,7 +1,9 @@
 package com.github.demolisher.animedb.di
 
 import android.content.Context
-import com.github.demolisher.animedb.data.remote.RemoteDataSource
+import com.github.demolisher.animedb.data.interceptor.ServiceInterceptor
+import com.github.demolisher.animedb.utils.NetworkUrls
+import com.github.demolisher.animedb.utils.SharedPreferenceManager
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -12,7 +14,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -30,25 +31,22 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient) : Retrofit =
+    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(RemoteDataSource.BASE_URL)
-            .client(getOkHttpClient())
+            .baseUrl(NetworkUrls.URL_WEBSITE)
+            .client(okHttpClient)
             .build()
 
-
-    private fun getLoggingIntercepter() =
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-
-    private fun getOkHttpClient() = OkHttpClient.Builder().addInterceptor(getLoggingIntercepter()).build()
-
+    @Provides
+    fun provideSharedPreferenceManager(@ApplicationContext context: Context) =
+        SharedPreferenceManager(context)
 
     @Provides
-    fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient =
+    fun provideOkHttp(@ApplicationContext context: Context, sharedPreferenceManager: SharedPreferenceManager): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(ChuckInterceptor(context))
-            .addInterceptor(getLoggingIntercepter())
+            .addInterceptor(ServiceInterceptor(sharedPreferenceManager))
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
