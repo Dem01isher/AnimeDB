@@ -1,35 +1,27 @@
-package com.github.demolisher.animedb.ui.bottom_nav
+package com.github.demolisher.animedb.views.list_of_anime
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
-import com.github.demolisher.animedb.domain.response.AnimeResponse
-import com.github.demolisher.animedb.ui.widgets.SearchBar
+import com.github.demolisher.animedb.ui.shimmer.ListOfShimmerItems
 import com.github.demolisher.animedb.utils.ErrorItem
 import com.github.demolisher.animedb.utils.LoadingItem
 import com.github.demolisher.animedb.utils.LoadingView
-import com.github.demolisher.animedb.views.list_of_anime.ListOfAnimeViewModel
+import com.github.demolisher.animedb.views.list_of_anime.components.CustomItem
+import com.google.accompanist.insets.statusBarsPadding
 
 /**
  *  Created by Android Studio on 12/20/2021 9:51 PM
@@ -39,40 +31,36 @@ import com.github.demolisher.animedb.views.list_of_anime.ListOfAnimeViewModel
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun AnimeScreen(viewModel: ListOfAnimeViewModel = hiltViewModel()) {
-    val listOfAnime : LazyPagingItems<AnimeResponse> = viewModel.listOfAnime.collectAsLazyPagingItems()
-//    val listData = viewModel.listOfItems.observeAsState()
-    Column(modifier = Modifier.padding(6.dp)) {
-        Text(text = "Popular", fontSize = 24.sp, fontStyle = FontStyle.Normal, fontFamily = FontFamily.Serif)
+fun AnimeScreen(
+    viewModel: ListOfAnimeViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier,
+    navigateToDetails: (Int) -> Unit
+) {
 
-        LazyColumn(){
-            items(listOfAnime){ item ->
-                CustomItem(anime = item!!)
+    val listOfAnime = viewModel.listOfAnime.collectAsLazyPagingItems()
+
+    Column(
+        modifier = Modifier
+            .padding(6.dp)
+    ) {
+        LazyVerticalGrid(
+            cells = GridCells.Adaptive(minSize = 128.dp),
+            modifier = modifier.statusBarsPadding()
+        ) {
+            items(listOfAnime.itemCount) { positiom ->
+                listOfAnime[positiom]?.let { anime ->
+                    CustomItem(anime = anime, navigateToDetails = {
+                        navigateToDetails.invoke(anime.id)
+                    })
+                }
             }
         }
-        listOfAnime.apply {
-            when {
-                loadState.refresh is LoadState.Loading -> {
-                    LoadingView(modifier = Modifier.fillMaxSize())
-                }
-                loadState.append is LoadState.Loading -> {
-                    LoadingItem()
-                }
-                loadState.append is LoadState.Error -> {
-                    val error = this.loadState.append as LoadState.Error
-                    ErrorItem(message = error.error.localizedMessage) {
-                        retry()
-                    }
-                }
-            }
+        if (listOfAnime.loadState.refresh == LoadState.Loading) {
+            ListOfShimmerItems()
+        }
+        if (listOfAnime.loadState.append == LoadState.Loading) {
+            ListOfShimmerItems()
         }
     }
-}
 
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@Composable
-@Preview(showBackground = true)
-fun PreviewAnimeScreen() {
-    AnimeScreen()
 }
