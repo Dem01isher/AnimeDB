@@ -107,4 +107,17 @@ dependencies {
 
     //Paging 3.0
     implementation "androidx.paging:paging-compose:1.0.0-alpha14"
+
+    // Constraint
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02"
+
+    // Coil
+    implementation "com.github.skydoves:landscapist-coil:1.4.3"
+
+    // compose insets
+    implementation "com.google.accompanist:accompanist-insets:0.20.0"
+    implementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
+
+// compose compatibles
+    implementation "com.github.skydoves:orchestra-balloon:1.1.1"
 }
