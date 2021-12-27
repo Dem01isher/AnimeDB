@@ -1,12 +1,18 @@
 package com.github.demolisher.animedb.views.list_of_manga
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.demolisher.animedb.data.AnimeRepository
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.github.demolisher.animedb.data.anime.AnimeRepository
+import com.github.demolisher.animedb.data.manga.MangaRepository
 import com.github.demolisher.animedb.domain.response.AnimeResponse
+import com.github.demolisher.animedb.utils.AnimeSource
+import com.github.demolisher.animedb.utils.MangaSource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -15,13 +21,12 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class ListOfMangaVIewModel @Inject constructor(private val repository: AnimeRepository): ViewModel() {
+class ListOfMangaViewModel @Inject constructor(private val repository: MangaRepository): ViewModel() {
 
-    val listOfMangas = MutableLiveData<List<AnimeResponse>>()
+    val listOfManga: Flow<PagingData<AnimeResponse>> =
+        Pager(PagingConfig(pageSize = 1)) {
+            MangaSource(repository)
+        }.flow.cachedIn(viewModelScope)
 
-    init {
-        viewModelScope.launch {
-            listOfMangas.postValue(repository.getMangas())
-        }
-    }
+
 }
