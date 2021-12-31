@@ -121,6 +121,4 @@ dependencies {
 // compose compatibles
     implementation "com.github.skydoves:orchestra-balloon:1.1.1"
 
-    //Rating bar
-    implementation 'com.github.a914-gowtham:compose-ratingbar:1.1.1'
 }
