@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.github.demolisher.animedb.ui.theme.primary
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -34,8 +33,7 @@ import kotlin.math.sin
 @Composable
 fun RatingBar(
     rating: Float,
-    modifier: Modifier = Modifier,
-    color: Color = primary
+    modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier.wrapContentSize()) {
         (1..5).forEach { step ->
@@ -44,7 +42,7 @@ fun RatingBar(
                 step.rem(rating) < 1 -> rating - (step - 1f)
                 else -> 0f
             }
-            RatingStar(stepRating, color)
+            RatingStar(stepRating, Color.LightGray)
         }
     }
 }
@@ -52,7 +50,6 @@ fun RatingBar(
 @Composable
 private fun RatingStar(
     rating: Float,
-    ratingColor: Color = primary,
     backgroundColor: Color = Color.Gray
 ) {
     BoxWithConstraints(
@@ -75,7 +72,7 @@ private fun RatingStar(
             )
             if (rating > 0) {
                 drawRect(
-                    brush = SolidColor(ratingColor),
+                    brush = SolidColor(Color.LightGray),
                     size = Size(
                         height = size.height * 1.1f,
                         width = size.width * rating
@@ -116,6 +113,7 @@ private val starPath = { size: Float ->
         close()
     }
 }
+
 @Preview
 @Composable
 fun RatingBarPreview() {

@@ -1,15 +1,11 @@
 package com.github.demolisher.animedb.views.list_of_manga
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,7 +15,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.github.demolisher.animedb.domain.response.AnimeResponse
 import com.github.demolisher.animedb.ui.shimmer.ListOfShimmerItems
 import com.github.demolisher.animedb.views.list_of_anime.components.CustomItem
-import com.github.demolisher.animedb.views.main.MainViewModel
 import com.google.accompanist.insets.statusBarsPadding
 
 /**

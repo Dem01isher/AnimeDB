@@ -5,10 +5,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import com.github.demolisher.animedb.ui.theme.secondary
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
@@ -28,7 +28,7 @@ fun NetworkImage(
     bitmapPalette: BitmapPalette? = null,
     shimmerParams: ShimmerParams? = ShimmerParams(
         baseColor = MaterialTheme.colors.background,
-        highlightColor = secondary,
+        highlightColor = Color.LightGray,
         dropOff = 0.65f
     ),
 ) {

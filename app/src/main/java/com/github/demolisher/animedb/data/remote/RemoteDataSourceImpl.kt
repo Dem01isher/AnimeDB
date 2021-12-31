@@ -1,13 +1,7 @@
 package com.github.demolisher.animedb.data.remote
 
-import com.github.demolisher.animedb.domain.data.UserData
-import com.github.demolisher.animedb.domain.network.NetworkResult
 import com.github.demolisher.animedb.domain.response.AnimeResponse
-import com.github.demolisher.animedb.domain.response.AuthTokenResponse
-import kotlinx.coroutines.flow.Flow
-import okhttp3.RequestBody
 import retrofit2.Retrofit
-import retrofit2.http.Body
 import javax.inject.Inject
 
 /**
@@ -32,19 +26,4 @@ class RemoteDataSourceImpl @Inject constructor(private val retrofit: Retrofit) :
     override suspend fun searchAnimeByName(name: String): AnimeResponse =
         api.searchAnimeByName(name)
 
-    override suspend fun authWithEmailAndPassword(
-        nickname: String,
-        password: String
-    ): AuthTokenResponse =
-        api.authWithEmailAndPassword(nickname, password)
-
-    override suspend fun getAccessToken(
-        grantType: String,
-        clientId: String,
-        clientSecret: String,
-        code: String?,
-        redirectUri: String?,
-        refreshToken: String?
-    ): AuthTokenResponse =
-        api.getAccessToken(grantType, clientId, clientSecret, code, redirectUri, refreshToken)
 }

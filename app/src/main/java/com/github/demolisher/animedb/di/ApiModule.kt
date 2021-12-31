@@ -2,8 +2,6 @@ package com.github.demolisher.animedb.di
 
 import com.github.demolisher.animedb.data.remote.RemoteDataSource
 import com.github.demolisher.animedb.data.remote.RemoteDataSourceImpl
-import com.github.demolisher.animedb.data.user.AuthRepository
-import com.github.demolisher.animedb.data.user.AuthRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,17 +18,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideAnimeRepository(remoteDataSource: RemoteDataSource) =
-//        AnimeRepository(remoteDataSource)
-
     @Singleton
     @Provides
     fun provideRemoteDataSource(retrofit: Retrofit): RemoteDataSource =
         RemoteDataSourceImpl(retrofit = retrofit)
 
-    @Provides
-    fun provideAuthRepository(remoteDataSource: RemoteDataSource): AuthRepository =
-        AuthRepositoryImpl(remoteDataSource)
 }

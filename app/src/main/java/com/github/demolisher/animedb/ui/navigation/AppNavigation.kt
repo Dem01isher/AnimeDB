@@ -12,7 +12,6 @@ import com.github.demolisher.animedb.ui.screens.Screen
 import com.github.demolisher.animedb.views.AnimatedSplashScreen
 import com.github.demolisher.animedb.views.list_of_anime.anime_details.AnimeDetailsScreen
 import com.github.demolisher.animedb.views.list_of_manga.manga_details.MangaDetailsScreen
-import com.github.demolisher.animedb.views.login.LoginScreen
 import com.github.demolisher.animedb.views.main.MainScreen
 import com.google.accompanist.insets.ProvideWindowInsets
 
@@ -34,9 +33,6 @@ fun AppNavigation() {
         ) {
             composable(route = Screen.SplashScreen.route) {
                 AnimatedSplashScreen(navController = navController)
-            }
-            composable(route = Screen.LoginScreen.route){
-                LoginScreen(navController = navController)
             }
             composable(route = Screen.MainScreen.route) {
                 MainScreen(navController)

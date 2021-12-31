@@ -78,7 +78,6 @@ private fun AnimeContent(animeResponse: State<AnimeResponse?>, containerHeight: 
         AnimeTitle(animeResponse.value?.name ?: "", animeResponse.value?.favoured == true)
         RatingBar(
             rating = (animeResponse.value?.score?.toFloat() ?: 0f) / 2f,
-            color = Color(palette?.vibrantSwatch?.rgb ?: 0),
             modifier = Modifier
                 .height(15.dp)
                 .align(Alignment.CenterHorizontally)
